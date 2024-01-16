@@ -9,14 +9,14 @@ function Login() {
         event.preventDefault();
         axios.post('http://localhost:8081/login', {email, password})
         .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
 
     return (
     <div className='d-flex vh-100 justify-content-center align-items-center bg-primary'>
-      <div className='p-3 bg-white w-25'>
+      <div className='p-3 bg-white w-25' p-lg-5 >
         <form onSubmit={handleSubmit}>
-            <div className='mb-3' >
+            <div className='mb-3' p-lg-5 >
                 <label htmlFor='email'>Email</label>
                 <input type='email' placeholder='Enter Email' className='form-control'
                 onChange={e => setEmail(e.target.value)}
