@@ -2,6 +2,7 @@ import React from 'react';
 import './Dashboard.css';
 import { useState } from 'react';
 import * as XLSX from 'xlsx';
+import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
 
 function Dashboard() {
@@ -47,7 +48,43 @@ function Dashboard() {
             const data = XLSX.utils.sheet_to_json(worksheet);
             setExcelData(data.slice(0,10));
         }
+    };
+    
+
+
+    // Render PieChart only if excelData is available
+    const renderPieChart = () => {
+        if (excelData) {
+        const individualExcelData = excelData[0];
+        const chartData = Object.keys(individualExcelData).map((key) => ({
+            name: key,
+            value: individualExcelData[key],
+        }));
+
+      return (
+        <PieChart width={400} height={400}>
+          <Pie
+            dataKey="value"
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            fill="#8884d8"
+            label
+          >
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={`#${Math.floor(Math.random() * 16777215).toString(16)}`} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      );
     }
+    return null;
+  };
+
+
+
 
   return (
     <div className='wrapper'>
@@ -83,15 +120,20 @@ function Dashboard() {
                             ))}
                         </tbody>
                     </table>
+                    
+                    {/* Call the renderPieChart function here */}
+                    {renderPieChart()}
+                
                 </div>
             ):(
                 <div>No File is uploaded yet! </div>
             )}
         </div>
-    
+
     
     </div>
+    
   );
 }
 
-export default Dashboard
+export default Dashboard;
