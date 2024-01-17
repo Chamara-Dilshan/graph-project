@@ -3,7 +3,7 @@ import {ExcelRenderer, OutTable} from 'react-excel-renderer';
 import {PieChart, Pie, Tooltip, Cell} from 'recharts';
 import {useDropzone} from 'react-dropzone';
 
-function Test() {
+function ExcelGraph() {
   const [file, setFile] = useState(null); // state for storing the file
   const [data, setData] = useState(null); // state for storing the data from the file
   const [error, setError] = useState(null); // state for storing any error message
@@ -88,15 +88,15 @@ function Test() {
           <PieChart width={400} height={400}>
             <Pie
               dataKey="value"
-              data={chartData}
+              data={chartData.datasets} // use the datasets array instead of the chartData object
               cx="50%"
               cy="50%"
               outerRadius={80}
               fill="#8884d8"
               label
             >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={`#${Math.floor(Math.random() * 16777215).toString(16)}`} />
+              {chartData.datasets.map((entry, index) => ( // use the datasets array instead of the chartData object
+                <Cell key={`cell-${index}`} fill={entry.backgroundColor} /> // use the backgroundColor property instead of a random color
               ))}
             </Pie>
             <Tooltip />
@@ -109,4 +109,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default ExcelGraph;
