@@ -1,5 +1,39 @@
 .wrapper{
    
     height: 100vh;
+
     
 }
+h3{
+    padding-bottom:1rem;
+
+}
+
+.btn-success{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.viewer {
+    margin-top: 20px; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+  }
+  
+  .viewer table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .viewer th, .viewer td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .viewer th {
+    background-color: #f2f2f2;
+  }
+  

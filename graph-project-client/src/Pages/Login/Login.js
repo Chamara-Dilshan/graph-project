@@ -14,8 +14,8 @@ function Login() {
     }
 
     return (
-    <div className='d-flex vh-100 justify-content-center align-items-center bg-primary'>
-      <div className='p-3 bg-white w-25' p-lg-5 >
+    <div className='d-flex vh-100 justify-content-center align-items-center '>
+      <div className='p-4  bg-light w-25 rounded' >
         <form onSubmit={handleSubmit}>
             <div className='mb-3' p-lg-5 >
                 <label htmlFor='email'>Email</label>
