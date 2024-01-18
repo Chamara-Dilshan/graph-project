@@ -1,102 +1,8 @@
-// import React, { useState } from 'react';
-// import { ExcelRenderer, OutTable } from 'react-excel-renderer';
-// import { PieChart, Pie, Tooltip, Cell } from 'recharts';
-// import { useDropzone } from 'react-dropzone';
-
-// function Test() {
-//   const [file, setFile] = useState(null);
-//   const [data, setData] = useState(null);
-//   const [error, setError] = useState(null);
-
-//   const handleFileDrop = (acceptedFiles) => {
-//     const file = acceptedFiles[0];
-//     const fileExtension = file.name.split('.').pop().toLowerCase();
-
-//     if (file && (fileExtension === 'csv' || fileExtension === 'xls' || fileExtension === 'xlsx')) {
-//       setFile(file);
-//       setError(null);
-
-//       ExcelRenderer(file, (err, resp) => {
-//         if (err) {
-//           setError(err);
-//         } else {
-//           setData(resp.rows);
-//         }
-//       });
-//     } else {
-//       setError('Please upload a valid Excel file');
-//     }
-//   };
-
-//   const getChartData = () => {
-//     if (data && data.length > 0) {
-//       const labels = data[0];
-//       const datasets = data.slice(1).map((row, index) => ({
-//         label: row[0],
-//         data: row.slice(1),
-//         backgroundColor: index % 2 === 0 ? '#FB8833' : '#17A8F5',
-//       }));
-
-//       return {
-//         labels,
-//         datasets,
-//       };
-//     } else {
-//       return null;
-//     }
-//   };
-
-//   const chartData = getChartData();
-
-//   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: handleFileDrop });
-
-//   return (
-//     <div>
-//       <h1>Import Excel File</h1>
-//       <div {...getRootProps()} className="dropzone">
-//         <input {...getInputProps()} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-//         {isDragActive ? (
-//           <p>Drop the file here ...</p>
-//         ) : (
-//           <p>Drag and drop a file here, or click to select a file</p>
-//         )}
-//       </div>
-//       <div>{file && `${file.name}`}</div>
-//       {error && <div style={{ color: 'red' }}>{error}</div>}
-//       {chartData && (
-//         <div>
-//           <h2>Pie Chart</h2>
-//           <PieChart width={400} height={400}>
-//             <Pie
-//               dataKey="value"
-//               data={chartData.datasets}
-//               cx="50%"
-//               cy="50%"
-//               outerRadius={80}
-//               fill="#8884d8"
-//               label
-//             >
-//               {chartData.datasets.map((entry, index) => (
-//                 <Cell key={`cell-${index}`} fill={entry.backgroundColor} />
-//               ))}
-//             </Pie>
-//             <Tooltip />
-//           </PieChart>
-//           <h2>Table</h2>
-//           <OutTable data={data} columns={chartData.labels} tableClassName="ExcelTable2007" tableHeaderRowClass="heading" />
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Test;
-
 import React from 'react';
 import './Test.css';
 import { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell, BarChart, ComposedChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts';
 
 
 function Test() {
@@ -162,17 +68,32 @@ function Test() {
           const pieChartData = excelData.map((value, index) => ({
             name: `${index + 1}`,
             value: value,
+          }));
 
-        }));
           const barChartData = excelData.map((value, index) => ({
             name: `${index + 1}`,
             value: value,
-        }));
+          }));
+
+          const lineChartData = excelData.map((value, index) => ({
+            name: `${index + 1}`,
+            value: value,
+          }));
+
+          const composedChartData = excelData.map((value, index) => ({
+            name: `${index + 1}`,
+            lineValue: value , // Example: Using a line value twice the bar value
+            barValue: value,
+          }));
+
+          // Set X-axis label based on the first column of Excel sheet
+          const XAxisLabel = Object.keys(excelData[0])[0];
+
 
       return (
         <div>
 
-          <div className='Chart'>
+          <div className='chart'>
             <h2>Pie Chart</h2>
             <PieChart width={500} height={400}>
             <Pie
@@ -192,7 +113,7 @@ function Test() {
             </PieChart>
           </div>
 
-          <div className='Chart'>
+          <div className='chart'>
           <h2>Bar Chart</h2>
             <BarChart 
               width={500} 
@@ -212,6 +133,49 @@ function Test() {
             <CartesianGrid strokeDasharray="3 3" />
             <Bar dataKey="value" fill="#8884d8" />
             </BarChart>
+          </div>
+          
+          <div className="chart">
+            <h2>Line Chart</h2>
+            <LineChart 
+              width={500} 
+              height={400} 
+              data={lineChartData}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="value" stroke="#8884d8" />
+            </LineChart>
+          </div>
+
+          <div className='chart'>
+            <h2>Composed Chart</h2>
+            <ComposedChart 
+              width={500} 
+              height={400} 
+              data={composedChartData}
+              margin={{
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20,
+              }}
+            >
+            <CartesianGrid stroke="#f5f5f5" />
+            <XAxis dataKey="name" />
+            <YAxis  />
+            <Tooltip />
+            <Bar dataKey="barValue" barSize={30} fill="#413ea0" />
+            <Line type="monotone" dataKey="lineValue" stroke="#82ca9d" />
+            </ComposedChart>
           </div>
           
       </div>
