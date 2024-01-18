@@ -46,6 +46,9 @@ function Dashboard() {
             const worksheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
+            
+
+
             setExcelData(data.slice(0,10));
         }
     };
@@ -55,20 +58,20 @@ function Dashboard() {
     // Render PieChart only if excelData is available
     const renderPieChart = () => {
         if (excelData) {
-        const individualExcelData = excelData[0];
-        const chartData = Object.keys(individualExcelData).map((key) => ({
+            const individualExcelData = excelData[0];
+            const chartData = Object.keys(individualExcelData).map((key) => ({
             name: key,
             value: individualExcelData[key],
         }));
 
       return (
-        <PieChart width={400} height={400}>
+        <PieChart width={500} height={400}>
           <Pie
             dataKey="value"
             data={chartData}
             cx="50%"
             cy="50%"
-            outerRadius={80}
+            outerRadius={150}
             fill="#8884d8"
             label
           >
@@ -121,16 +124,18 @@ function Dashboard() {
                         </tbody>
                     </table>
                     
-                    {/* Call the renderPieChart function here */}
-                    {renderPieChart()}
                 
                 </div>
             ):(
                 <div>No File is uploaded yet! </div>
             )}
         </div>
+        <div className='graph'>
+            {/* Call the renderPieChart function here */}
+            {renderPieChart()}
 
-    
+        </div>
+        
     </div>
     
   );
