@@ -96,7 +96,7 @@ import React from 'react';
 import './Test.css';
 import { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts';
 
 
 function Test() {
@@ -206,9 +206,10 @@ function Test() {
               }}
               barSize={30}
             >
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name"/>
             <YAxis />
             <Tooltip />
+            <CartesianGrid strokeDasharray="3 3" />
             <Bar dataKey="value" fill="#8884d8" />
             </BarChart>
           </div>
