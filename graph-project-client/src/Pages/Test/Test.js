@@ -47,11 +47,15 @@ function Test() {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             
+
+            
           // Check if the data array is not empty
           if (data.length > 0) {
             // Assuming the first column in the sheet
             const columnName = Object.keys(data[0])[1];
             const columnData = data.map(row => row[columnName]);
+            
+            
 
             setExcelData(columnData.slice(0, 10));
             console.log(excelData);
@@ -63,6 +67,7 @@ function Test() {
     
     // Render PieChart only if excelData is available
     const renderCharts = () => {
+
         if (excelData) {
 
           const pieChartData = excelData.map((value, index) => ({
@@ -86,9 +91,16 @@ function Test() {
             barValue: value,
           }));
 
-          // Set X-axis label based on the first column of Excel sheet
-          const XAxisLabel = Object.keys(excelData[0])[0];
 
+          // const jsonData = excelData.map((value, index) => ({
+          //   name: `${index + 1}`,
+          //   value: value,
+          // }));
+          // const firstColumnData = jsonData.map(row => row['Column1']);
+
+          // const XAxisLabel = Object.keys(excelData[0])[0];
+
+          
 
       return (
         <div>
@@ -203,7 +215,8 @@ function Test() {
             {excelData?(
                 <div className='graph'>
                     {/* Call the renderPieChart function here */}
-                    {renderCharts()}     
+                    {renderCharts()}
+                        
                 
                 </div>
             ):(
@@ -213,7 +226,7 @@ function Test() {
                 </div>
             )}
         </div>
-
+        
         
     </div>
     
